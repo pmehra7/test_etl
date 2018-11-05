@@ -9,7 +9,6 @@ object DataLoadBatch {
     val spark = SparkSession
       .builder
       .appName("Graph Load Application")
-      .enableHiveSupport()
       .getOrCreate()
 
     TransactionalStore.soldierWriteToCassandra(spark)

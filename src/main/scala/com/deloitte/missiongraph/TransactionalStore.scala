@@ -16,7 +16,7 @@ object TransactionalStore {
   soldier.setFileLocation(configData.getString("emilpo_soldier_file_location"))
 
   def soldierWriteToCassandra(spark: SparkSession) = {
-    val soldierData = loadDataFromFile(spark, soldier.delimiter, soldier.schema, soldier.fileLocation).withColumn("INSERT_TIME", current_timestamp())
+    val soldierData = loadDataFromFile(spark, soldier.delimiter, soldier.schema, soldier.fileLocation).withColumn("insert_time", current_timestamp())
     storeDataFrameToDSE(spark, soldierData, soldier.transactionalTable, keyspace, clusterName)
   }
 
@@ -24,7 +24,7 @@ object TransactionalStore {
   events.setFileLocation(configData.getString("events_file_location"))
 
   def eventsWriteToCassandra(spark: SparkSession) = {
-    val eventsData = loadDataFromFile(spark, events.delimiter, events.schema, events.fileLocation).withColumn("INSERT_TIME", current_timestamp())
+    val eventsData = loadDataFromFile(spark, events.delimiter, events.schema, events.fileLocation).withColumn("insert_time", current_timestamp())
     storeDataFrameToDSE(spark, eventsData, soldier.transactionalTable, keyspace, clusterName)
   }
 
@@ -32,7 +32,7 @@ object TransactionalStore {
   units.setFileLocation(configData.getString("units_file_location"))
 
   def unitsWriteToCassandra(spark: SparkSession) = {
-    val unitsData = loadDataFromFile(spark, units.delimiter, units.schema, units.fileLocation).withColumn("INSERT_TIME", current_timestamp())
+    val unitsData = loadDataFromFile(spark, units.delimiter, units.schema, units.fileLocation).withColumn("insert_time", current_timestamp())
     storeDataFrameToDSE(spark, unitsData, units.transactionalTable, keyspace, clusterName)
   }
 
