@@ -10,14 +10,14 @@ object TransactionalStore {
 
   val configData: com.typesafe.config.Config = config.configFile
   val clusterName: String = configData.getString("cluster")
-  val keyspace: String = configData.getString("keyspace")
+  val keyspace: String = configData.getString("transactional_keyspace")
 
-  val soldier_emilpo = new soldier()
-  soldier_emilpo.setFileLocation(configData.getString("emilpo_soldier_file_location"))
+  val soldier= new soldier()
+  soldier.setFileLocation(configData.getString("emilpo_soldier_file_location"))
 
   def soldierWriteToCassandra(spark: SparkSession) = {
-    val soldierData = loadDataFromFile(spark, soldier_emilpo.delimiter, soldier_emilpo.schema, soldier_emilpo.fileLocation).withColumn("INSERT_TIME", current_timestamp())
-    storeDataFrameToDSE(spark, soldierData, soldier_emilpo.transactionalTable, keyspace, clusterName)
+    val soldierData = loadDataFromFile(spark, soldier.delimiter, soldier.schema, soldier.fileLocation).withColumn("INSERT_TIME", current_timestamp())
+    storeDataFrameToDSE(spark, soldierData, soldier.transactionalTable, keyspace, clusterName)
   }
 
   val events = new events()
@@ -25,7 +25,7 @@ object TransactionalStore {
 
   def eventsWriteToCassandra(spark: SparkSession) = {
     val eventsData = loadDataFromFile(spark, events.delimiter, events.schema, events.fileLocation).withColumn("INSERT_TIME", current_timestamp())
-    storeDataFrameToDSE(spark, eventsData, soldier_emilpo.transactionalTable, keyspace, clusterName)
+    storeDataFrameToDSE(spark, eventsData, soldier.transactionalTable, keyspace, clusterName)
   }
 
   val units = new units()
