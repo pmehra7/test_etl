@@ -3,7 +3,8 @@ package com.deloitte.missiongraph
 import com.datastax.driver.core.schemabuilder.SchemaBuilder
 import com.datastax.driver.dse.DseSession
 import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
+
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
@@ -14,7 +15,7 @@ object HelperFunctions {
   }
 
   def storeDataFrameToDSE(spark: SparkSession, dataFrametoPersist: DataFrame, table: String, keyspace: String, cluster_name: String): Unit = {
-    dataFrametoPersist.write.format("org.apache.spark.sql.cassandra").options(Map("table" -> table, "keyspace" -> keyspace)).save()
+    dataFrametoPersist.write.format("org.apache.spark.sql.cassandra").options(Map("table" -> table, "keyspace" -> keyspace)).mode(SaveMode.Append).save()
   }
 
   def createKeyspace(session: DseSession, keyspace:String, datacenter: String, replication_factor: Int): Unit = {

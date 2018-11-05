@@ -20,18 +20,18 @@ class events extends emilpo {
   // Spark Schema for Data Source Read
   def schema:StructType = {
     StructType(Array(
-      StructField("SSN", StringType, nullable = true),
-      StructField("EVT_START_DT", StringType, nullable = true),
-      StructField("UIC", StringType, nullable = false),
-      StructField("DEPLOY_CNTRY_CD", StringType, nullable = true),
-      StructField("ASSIGNED_UIC", StringType, nullable = true),
-      StructField("IN_THEATER_CD", StringType, nullable = true),
-      StructField("EVT_ACT_END_DT", StringType, nullable = true),
-      StructField("EVT_CAT_CD", StringType, nullable = true),
-      StructField("EVT_PURP_CD", StringType, nullable = true),
-      StructField("deployed_UIC", StringType, nullable = true),
-      StructField("eventCategory", StringType, nullable = true),
-      StructField("daysDuration", StringType, nullable = true)
+      StructField("ssn", StringType, nullable = true),
+      StructField("evt_start_dt", StringType, nullable = true),
+      StructField("uic", StringType, nullable = false),
+      StructField("deploy_cntry_cd", StringType, nullable = true),
+      StructField("assigned_uic", StringType, nullable = true),
+      StructField("in_theater_cd", StringType, nullable = true),
+      StructField("evt_act_end_dt", StringType, nullable = true),
+      StructField("evt_cat_cd", StringType, nullable = true),
+      StructField("evt_purp_cd", StringType, nullable = true),
+      StructField("deployed_uic", StringType, nullable = true),
+      StructField("eventcategory", StringType, nullable = true),
+      StructField("daysduration", StringType, nullable = true)
     ))
   }
 
@@ -39,18 +39,19 @@ class events extends emilpo {
     SchemaBuilder
       .createTable(keyspace, transactionalTable)
       .ifNotExists()
-      .addPartitionKey("UIC", DataType.text())
-      .addClusteringColumn("INSERT_TIME", DataType.timestamp())
-      .addColumn("SSN", DataType.text())
-      .addColumn("EVT_START_DT", DataType.text())
-      .addColumn("DEPLOY_CNTRY_CD", DataType.text())
-      .addColumn("ASSIGNED_UIC", DataType.text())
-      .addColumn("IN_THEATER_CD", DataType.text())
-      .addColumn("EVT_ACT_END_DT", DataType.text())
-      .addColumn("EVT_CAT_CD", DataType.text())
-      .addColumn("EVT_PURP_CD", DataType.text())
-      .addColumn("deployed_UIC", DataType.text())
-      .addColumn("deployed_UIC", DataType.text())
+      .addPartitionKey("uic", DataType.text())
+      .addClusteringColumn("insert_time", DataType.timestamp())
+      .addColumn("ssn", DataType.text())
+      .addColumn("evt_start_dt", DataType.text())
+      .addColumn("deploy_cntry_cd", DataType.text())
+      .addColumn("assigned_uic", DataType.text())
+      .addColumn("in_theater_cd", DataType.text())
+      .addColumn("evt_act_end_dt", DataType.text())
+      .addColumn("evt_cat_cd", DataType.text())
+      .addColumn("evt_purp_cd", DataType.text())
+      .addColumn("deployed_uic", DataType.text())
+      .addColumn("eventcategory", DataType.text())
+      .addColumn("daysduration", DataType.text())
       .addColumn("processed", DataType.cboolean())
       .addColumn("marked_for_delete", DataType.cboolean())
       .withOptions()
@@ -62,17 +63,19 @@ class events extends emilpo {
     SchemaBuilder
       .createTable(keyspace, entityTable)
       .ifNotExists()
-      .addPartitionKey("UIC", DataType.text())
-      .addColumn("SSN", DataType.text())
-      .addColumn("EVT_START_DT", DataType.text())
-      .addColumn("DEPLOY_CNTRY_CD", DataType.text())
-      .addColumn("ASSIGNED_UIC", DataType.text())
-      .addColumn("IN_THEATER_CD", DataType.text())
-      .addColumn("EVT_ACT_END_DT", DataType.text())
-      .addColumn("EVT_CAT_CD", DataType.text())
-      .addColumn("EVT_PURP_CD", DataType.text())
-      .addColumn("deployed_UIC", DataType.text())
-      .addColumn("deployed_UIC", DataType.text())
+      .addPartitionKey("uic", DataType.text())
+      .addClusteringColumn("insert_time", DataType.timestamp())
+      .addColumn("ssn", DataType.text())
+      .addColumn("evt_start_dt", DataType.text())
+      .addColumn("deploy_cntry_cd", DataType.text())
+      .addColumn("assigned_uic", DataType.text())
+      .addColumn("in_theater_cd", DataType.text())
+      .addColumn("evt_act_end_dt", DataType.text())
+      .addColumn("evt_cat_cd", DataType.text())
+      .addColumn("evt_purp_cd", DataType.text())
+      .addColumn("deployed_uic", DataType.text())
+      .addColumn("eventcategory", DataType.text())
+      .addColumn("daysduration", DataType.text())
       //.addColumn("processed", DataType.cboolean())
       //.addColumn("marked_for_delete", DataType.cboolean())
       .withOptions()
@@ -81,12 +84,9 @@ class events extends emilpo {
 
   // Graph Schema
   val properties = List(
-    property("EVT_START_DT",GraphDataType.Text,Cardinality.single),
-    property("SSN",GraphDataType.Text,Cardinality.single),
-    property("DEPLOY_CNTRY_CD",GraphDataType.Text,Cardinality.single),
-    property("UNIT_GEOCODE",GraphDataType.Text,Cardinality.single),
-    property("eventCategory",GraphDataType.Text,Cardinality.single),
-    property("daysDuration",GraphDataType.Text,Cardinality.single)
+    property("evt_start_dt",GraphDataType.Text,Cardinality.single),
+    property("ssn",GraphDataType.Text,Cardinality.single),
+    property("deploy_cntry_cd",GraphDataType.Text,Cardinality.single)
   )
 
   private val allProperties = properties

@@ -420,19 +420,16 @@ class soldier extends emilpo {
   }
 
   private val partitionProperties = List(
-    property("UIC",GraphDataType.Text,Cardinality.single)
+    property("uic",GraphDataType.Text,Cardinality.single)
   )
 
   private val clusteringProperties = List(
-    property("INSERT_TIME",GraphDataType.Text,Cardinality.single)
+    property("insert_time",GraphDataType.Text,Cardinality.single)
   )
 
   private val properties = List(
-    property("UNIT_LNAME",GraphDataType.Text,Cardinality.single),
-    property("UNIT_HOME_FORT_NAME",GraphDataType.Text,Cardinality.single),
-    property("UNIT_LOCATION_ZIP_CODE",GraphDataType.Text,Cardinality.single),
-    property("UNIT_GEOCODE",GraphDataType.Text,Cardinality.single),
-    property("EquipUIC",GraphDataType.Text,Cardinality.single)
+    property("unit_lname",GraphDataType.Text,Cardinality.single),
+    property("rgmt_cd",GraphDataType.Text,Cardinality.single)
   )
 
   private val allProperties = partitionProperties ::: clusteringProperties ::: properties

@@ -25,7 +25,7 @@ object TransactionalStore {
 
   def eventsWriteToCassandra(spark: SparkSession) = {
     val eventsData = loadDataFromFile(spark, events.delimiter, events.schema, events.fileLocation).withColumn("insert_time", current_timestamp())
-    storeDataFrameToDSE(spark, eventsData, soldier.transactionalTable, keyspace, clusterName)
+    storeDataFrameToDSE(spark, eventsData, events.transactionalTable, keyspace, clusterName)
   }
 
   val units = new units()

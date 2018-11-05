@@ -19,18 +19,18 @@ class units extends fms {
 
   def schema:StructType = {
     StructType(Array(
-      StructField("UIC", StringType, nullable = false),
-      StructField("UNIT_LNAME", StringType, nullable = true),
-      StructField("UNIT_HOME_FORT_NAME", StringType, nullable = true),
-      StructField("UNIT_LOCATION_ZIP_CODE", StringType, nullable = true),
-      StructField("UNIT_GEOCODE", StringType, nullable = true),
-      StructField("EquipUIC", StringType, nullable = true),
-      StructField("UESSR_UIC_DESC", StringType, nullable = true),
-      StructField("MODIFIED_UESSR_DESC", StringType, nullable = true),
-      StructField("PRIMARY_UESSR_DESC", StringType, nullable = true),
-      StructField("INTERMEDIATE_UESSR_DESC", StringType, nullable = true),
-      StructField("SUPER_UESSR_DESC", StringType, nullable = true),
-      StructField("ComponentCode", StringType, nullable = true)
+      StructField("uic", StringType, nullable = false),
+      StructField("unit_lname", StringType, nullable = true),
+      StructField("unit_home_fort_name", StringType, nullable = true),
+      StructField("unit_location_zip_code", StringType, nullable = true),
+      StructField("unit_geocode", StringType, nullable = true),
+      StructField("equipuic", StringType, nullable = true),
+      StructField("uessr_uic_desc", StringType, nullable = true),
+      StructField("modified_uessr_desc", StringType, nullable = true),
+      StructField("primary_uessr_desc", StringType, nullable = true),
+      StructField("intermediate_uessr_desc", StringType, nullable = true),
+      StructField("super_uessr_desc", StringType, nullable = true),
+      StructField("componentcode", StringType, nullable = true)
     ))
   }
 
@@ -38,19 +38,19 @@ class units extends fms {
     SchemaBuilder
       .createTable(keyspace, transactionalTable)
       .ifNotExists()
-      .addPartitionKey("UIC", DataType.text())
-      .addClusteringColumn("INSERT_TIME", DataType.timestamp())
-      .addColumn("UNIT_LNAME", DataType.text())
-      .addColumn("UNIT_HOME_FORT_NAME", DataType.text())
-      .addColumn("UNIT_LOCATION_ZIP_CODE", DataType.text())
-      .addColumn("UNIT_GEOCODE", DataType.text())
-      .addColumn("EquipUIC", DataType.text())
-      .addColumn("UESSR_UIC_DESC", DataType.text())
-      .addColumn("MODIFIED_UESSR_DESC", DataType.text())
-      .addColumn("PRIMARY_UESSR_DESC", DataType.text())
-      .addColumn("INTERMEDIATE_UESSR_DESC", DataType.text())
-      .addColumn("SUPER_UESSR_DESC", DataType.text())
-      .addColumn("ComponentCode", DataType.text())
+      .addPartitionKey("uic", DataType.text())
+      .addClusteringColumn("insert_time", DataType.timestamp())
+      .addColumn("unit_lname", DataType.text())
+      .addColumn("unit_home_fort_name", DataType.text())
+      .addColumn("unit_location_zip_code", DataType.text())
+      .addColumn("unit_geocode", DataType.text())
+      .addColumn("equipuic", DataType.text())
+      .addColumn("uessr_uic_desc", DataType.text())
+      .addColumn("modified_uessr_desc", DataType.text())
+      .addColumn("primary_uessr_desc", DataType.text())
+      .addColumn("intermediate_uessr_desc", DataType.text())
+      .addColumn("super_uessr_desc", DataType.text())
+      .addColumn("componentcode", DataType.text())
       .addColumn("processed", DataType.cboolean())
       .addColumn("marked_for_delete", DataType.cboolean())
       .withOptions()
@@ -61,18 +61,19 @@ class units extends fms {
     SchemaBuilder
       .createTable(keyspace, entityTable)
       .ifNotExists()
-      .addPartitionKey("UIC", DataType.text())
-      .addColumn("UNIT_LNAME", DataType.text())
-      .addColumn("UNIT_HOME_FORT_NAME", DataType.text())
-      .addColumn("UNIT_LOCATION_ZIP_CODE", DataType.text())
-      .addColumn("UNIT_GEOCODE", DataType.text())
-      .addColumn("EquipUIC", DataType.text())
-      .addColumn("UESSR_UIC_DESC", DataType.text())
-      .addColumn("MODIFIED_UESSR_DESC", DataType.text())
-      .addColumn("PRIMARY_UESSR_DESC", DataType.text())
-      .addColumn("INTERMEDIATE_UESSR_DESC", DataType.text())
-      .addColumn("SUPER_UESSR_DESC", DataType.text())
-      .addColumn("ComponentCode", DataType.text())
+      .addPartitionKey("uic", DataType.text())
+      .addClusteringColumn("insert_time", DataType.timestamp())
+      .addColumn("unit_lname", DataType.text())
+      .addColumn("unit_home_fort_name", DataType.text())
+      .addColumn("unit_location_zip_code", DataType.text())
+      .addColumn("unit_geocode", DataType.text())
+      .addColumn("equipuic", DataType.text())
+      .addColumn("uessr_uic_desc", DataType.text())
+      .addColumn("modified_uessr_desc", DataType.text())
+      .addColumn("primary_uessr_desc", DataType.text())
+      .addColumn("intermediate_uessr_desc", DataType.text())
+      .addColumn("super_uessr_desc", DataType.text())
+      .addColumn("componentcode", DataType.text())
       //.addColumn("processed", DataType.cboolean())
       //.addColumn("marked_for_delete", DataType.cboolean())
       .withOptions()
@@ -80,19 +81,19 @@ class units extends fms {
   }
 
   private val partitionProperties = List(
-    property("UIC",GraphDataType.Text,Cardinality.single)
+    property("uic",GraphDataType.Text,Cardinality.single)
   )
 
   private val clusteringProperties = List(
-    property("INSERT_TIME",GraphDataType.Text,Cardinality.single)
+    property("insert_time",GraphDataType.Text,Cardinality.single)
   )
 
   private val properties = List(
-    property("UNIT_LNAME",GraphDataType.Text,Cardinality.single),
-    property("UNIT_HOME_FORT_NAME",GraphDataType.Text,Cardinality.single),
-    property("UNIT_LOCATION_ZIP_CODE",GraphDataType.Text,Cardinality.single),
-    property("UNIT_GEOCODE",GraphDataType.Text,Cardinality.single),
-    property("EquipUIC",GraphDataType.Text,Cardinality.single)
+    property("unit_lname",GraphDataType.Text,Cardinality.single),
+    property("unit_home_fort_name",GraphDataType.Text,Cardinality.single),
+    property("unit_location_zip_code",GraphDataType.Text,Cardinality.single),
+    property("unit_geocode",GraphDataType.Text,Cardinality.single),
+    property("equipuic",GraphDataType.Text,Cardinality.single)
   )
 
   private val allProperties = partitionProperties ::: clusteringProperties ::: properties

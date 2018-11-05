@@ -11,7 +11,7 @@
     <cassandra.version>3.2</cassandra.version>
     <spark.version>2.2.2</spark.version>
     <dse.java.driver.version>1.7.0</dse.java.driver.version>
-    <spark.cassandra.version>2.3.1</spark.cassandra.version>
+    <spark.cassandra.version>2.3.2</spark.cassandra.version>
     <junit.version>4.12</junit.version>
   </properties>
   <pluginRepositories>
@@ -54,6 +54,11 @@
       <artifactId>spark-sql_${scala.main.version}</artifactId>
       <version>${spark.version}</version>
     </dependency>
+    <!--<dependency>
+      <groupId>com.datastax.spark</groupId>
+      <artifactId>spark-cassandra-connector-embedded_${scala.main.version}</artifactId>
+      <version>${spark.cassandra.version}</version>
+    </dependency>-->
     <dependency>
       <groupId>com.typesafe.scala-logging</groupId>
       <artifactId>scala-logging_${scala.main.version}</artifactId>
@@ -68,11 +73,6 @@
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>
       <version>1.3.3</version>
-    </dependency>
-    <dependency>
-      <groupId>com.datastax.spark</groupId>
-      <artifactId>spark-cassandra-connector_${scala.main.version}</artifactId>
-      <version>${spark.cassandra.version}</version>
     </dependency>
     <!--<dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
