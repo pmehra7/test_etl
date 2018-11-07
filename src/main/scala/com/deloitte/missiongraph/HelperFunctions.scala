@@ -4,7 +4,6 @@ import com.datastax.driver.core.schemabuilder.SchemaBuilder
 import com.datastax.driver.dse.DseSession
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
-
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 

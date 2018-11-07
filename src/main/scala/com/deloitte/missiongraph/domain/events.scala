@@ -16,6 +16,8 @@ class events extends emilpo {
   def setDelimiter(delimiter: String): Unit = this.delimiter = delimiter
   def setFileLocation(fileLocation: String): Unit = this.fileLocation = fileLocation
   def getSchemaColumns: List[(String,String)] = schema.toList.map(x => (x.productElement(0).toString,x.productElement(1).toString))
+  def getGraphPropertyCols = allProperties.map(x => x.name)
+
 
   // Spark Schema for Data Source Read
   def schema:StructType = {
@@ -64,7 +66,7 @@ class events extends emilpo {
       .createTable(keyspace, entityTable)
       .ifNotExists()
       .addPartitionKey("uic", DataType.text())
-      .addClusteringColumn("insert_time", DataType.timestamp())
+      //.addClusteringColumn("insert_time", DataType.timestamp())
       .addColumn("ssn", DataType.text())
       .addColumn("evt_start_dt", DataType.text())
       .addColumn("deploy_cntry_cd", DataType.text())
@@ -76,6 +78,7 @@ class events extends emilpo {
       .addColumn("deployed_uic", DataType.text())
       .addColumn("eventcategory", DataType.text())
       .addColumn("daysduration", DataType.text())
+      .addColumn("processed_graph", DataType.cboolean())
       //.addColumn("processed", DataType.cboolean())
       //.addColumn("marked_for_delete", DataType.cboolean())
       .withOptions()
@@ -84,14 +87,14 @@ class events extends emilpo {
 
   // Graph Schema
   val properties = List(
-    property("evt_start_dt",GraphDataType.Text,Cardinality.single),
-    property("ssn",GraphDataType.Text,Cardinality.single),
-    property("deploy_cntry_cd",GraphDataType.Text,Cardinality.single)
+    Property("evt_start_dt",GraphDataType.Text,Cardinality.single),
+    Property("ssn",GraphDataType.Text,Cardinality.single),
+    Property("deploy_cntry_cd",GraphDataType.Text,Cardinality.single)
   )
 
   private val allProperties = properties
 
-  val eventEdge = edge("resides_in", properties, Cardinality.multiple, ("soldier","unit"))
+  val eventEdge = Edge("resides_in", properties, Cardinality.multiple, ("soldier","unit"))
 
   def getGraphSchema: Map[String, List[String]] = {
     Map(

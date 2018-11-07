@@ -1,5 +1,6 @@
 package com.deloitte.missiongraph
 
+
 import com.deloitte.missiongraph.HelperFunctions.{loadDataFromFile, storeDataFrameToDSE}
 import com.deloitte.missiongraph.domain._
 import org.apache.spark.sql.SparkSession
@@ -12,7 +13,7 @@ object TransactionalStore {
   val clusterName: String = configData.getString("cluster")
   val keyspace: String = configData.getString("transactional_keyspace")
 
-  val soldier= new soldier()
+  val soldier = new soldier()
   soldier.setFileLocation(configData.getString("emilpo_soldier_file_location"))
 
   def soldierWriteToCassandra(spark: SparkSession) = {

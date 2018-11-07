@@ -16,6 +16,8 @@ class units extends fms {
   def setDelimiter(delimiter: String): Unit = this.delimiter = delimiter
   def setFileLocation(fileLocation: String): Unit = this.fileLocation = fileLocation
   def getSchemaColumns: List[(String,String)] = schema.toList.map(x => (x.productElement(0).toString, x.productElement(1).toString))
+  def getGraphPropertyCols = allProperties.map(x => x.name)
+
 
   def schema:StructType = {
     StructType(Array(
@@ -62,7 +64,7 @@ class units extends fms {
       .createTable(keyspace, entityTable)
       .ifNotExists()
       .addPartitionKey("uic", DataType.text())
-      .addClusteringColumn("insert_time", DataType.timestamp())
+      //.addClusteringColumn("insert_time", DataType.timestamp())
       .addColumn("unit_lname", DataType.text())
       .addColumn("unit_home_fort_name", DataType.text())
       .addColumn("unit_location_zip_code", DataType.text())
@@ -74,31 +76,29 @@ class units extends fms {
       .addColumn("intermediate_uessr_desc", DataType.text())
       .addColumn("super_uessr_desc", DataType.text())
       .addColumn("componentcode", DataType.text())
+      .addColumn("processed_graph", DataType.cboolean())
       //.addColumn("processed", DataType.cboolean())
       //.addColumn("marked_for_delete", DataType.cboolean())
       .withOptions()
       .compactionOptions(SchemaBuilder.timeWindowCompactionStrategy())
   }
 
-  private val partitionProperties = List(
-    property("uic",GraphDataType.Text,Cardinality.single)
-  )
 
-  private val clusteringProperties = List(
-    property("insert_time",GraphDataType.Text,Cardinality.single)
+  private val primaryKey = Map(
+    PrimaryKey.PartitionKey -> List(Property("uic",GraphDataType.Text,Cardinality.single))
   )
 
   private val properties = List(
-    property("unit_lname",GraphDataType.Text,Cardinality.single),
-    property("unit_home_fort_name",GraphDataType.Text,Cardinality.single),
-    property("unit_location_zip_code",GraphDataType.Text,Cardinality.single),
-    property("unit_geocode",GraphDataType.Text,Cardinality.single),
-    property("equipuic",GraphDataType.Text,Cardinality.single)
+    Property("unit_lname",GraphDataType.Text,Cardinality.single),
+    Property("unit_home_fort_name",GraphDataType.Text,Cardinality.single),
+    Property("unit_location_zip_code",GraphDataType.Text,Cardinality.single),
+    Property("unit_geocode",GraphDataType.Text,Cardinality.single),
+    Property("equipuic",GraphDataType.Text,Cardinality.single)
   )
 
-  private val allProperties = partitionProperties ::: clusteringProperties ::: properties
+  private val allProperties = primaryKey.valuesIterator.toList.flatten ::: properties
 
-  private val unitVertex = vertex("unit", properties, partitionProperties, clusteringProperties)
+  val unitVertex = Vertex("unit", properties, primaryKey)
 
   def getGraphSchema: Map[String, List[String]] = Map(
     GraphObject.Vertex.toString -> List(createVertexSchema(unitVertex)),

@@ -5,7 +5,6 @@ import com.datastax.driver.dse.{DseCluster, DseSession}
 import com.deloitte.missiongraph.GraphSchema.createGraph
 import com.deloitte.missiongraph.HelperFunctions.mergeMapList
 import com.deloitte.missiongraph.domain._
-
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 

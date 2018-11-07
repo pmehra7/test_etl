@@ -16,6 +16,8 @@ class soldier extends emilpo {
   def setDelimiter(delimiter: String): Unit = this.delimiter = delimiter
   def setFileLocation(fileLocation: String): Unit = this.fileLocation = fileLocation
   def getSchemaColumns: List[(String,String)] = schema.toList.map(x => (x.productElement(0).toString,x.productElement(1).toString))
+  def getGraphPropertyCols = allProperties.map(x => x.name)
+
 
   def schema:StructType = {
     StructType(Array(
@@ -413,31 +415,28 @@ class soldier extends emilpo {
       .addColumn("BIRTH_PL_VAL_DT", DataType.text())
       .addColumn("CTZSP_VAL_DT", DataType.text())
       .addColumn("UNIT_LNAME", DataType.text())
+      .addColumn("processed_graph", DataType.cboolean())
       //.addColumn("processed", DataType.cboolean())
       //.addColumn("marked_for_delete", DataType.cboolean())
       .withOptions()
       .compactionOptions(SchemaBuilder.timeWindowCompactionStrategy())
   }
 
-  private val partitionProperties = List(
-    property("uic",GraphDataType.Text,Cardinality.single)
-  )
-
-  private val clusteringProperties = List(
-    property("insert_time",GraphDataType.Text,Cardinality.single)
+  private val primaryKey = Map(
+    PrimaryKey.PartitionKey -> List(Property("uic",GraphDataType.Text,Cardinality.single))
   )
 
   private val properties = List(
-    property("unit_lname",GraphDataType.Text,Cardinality.single),
-    property("rgmt_cd",GraphDataType.Text,Cardinality.single)
+    Property("unit_lname",GraphDataType.Text,Cardinality.single),
+    Property("rgmt_cd",GraphDataType.Text,Cardinality.single)
   )
 
-  private val allProperties = partitionProperties ::: clusteringProperties ::: properties
+  private val allProperties = primaryKey.valuesIterator.toList.flatten ::: properties
 
-  private val unitVertex = vertex("soldier", properties, partitionProperties, clusteringProperties)
+  val soldierVertex = Vertex("soldier", properties, primaryKey)
 
   def getGraphSchema: Map[String, List[String]] = Map(
-    GraphObject.Vertex.toString -> List(createVertexSchema(unitVertex)),
+    GraphObject.Vertex.toString -> List(createVertexSchema(soldierVertex)),
     GraphObject.Property.toString -> createPropertySchema(allProperties)
   )
 
